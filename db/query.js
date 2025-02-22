@@ -1,0 +1,34 @@
+const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcryptjs");
+
+const prisma = new PrismaClient();
+
+
+const hashPassword = async (password) => {
+  return await bcrypt.hash(password, 10);
+};
+
+
+const registerUser = async (name,email, password) => {
+  try {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return { error: "User already exists" };
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const newUser = await prisma.user.create({
+      data: {
+        name, 
+        email,
+        password: hashedPassword },
+    });
+
+    return { message: "User registered", user: newUser };
+  } catch (error) {
+    console.error(error); 
+    return { error: "Error creating user", details: error.message };
+  }
+};
+
+module.exports = { registerUser };

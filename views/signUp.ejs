@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+</head>
+<body>
+      <h1>Create an account</h1>
+      <form action="/sign-up" method="post">
+        <label for="name">Username</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label for="email">Email</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" name="password" placeholder="******" required><br><br>
+
+        <button type="submit">Create an account</button><br><br>
+      </form>
+      <p>Already have an account? <a href="/log-in">login here</a></p>
+</body>
+</html>
