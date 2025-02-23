@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require("path");
+const fileUpload = require('express-fileupload')
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('@prisma/client');
@@ -7,9 +8,12 @@ const passport = require('./config/passportConfig');
 const authorRouter = require('./routes/authorRouter');
 
 const app = express();
-
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 }  
+}));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   expressSession({

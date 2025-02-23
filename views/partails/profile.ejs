@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Menu</title>
+  <style>
+    #userMenu {
+      display: none; 
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  
+<a id="userBtn">
+<img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>" 
+     alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+</a>
+
+
+  
+  <div id="userMenu">
+    <h3>Welcome, <%= user.name %>!</h3>
+    <button onclick="window.location.href='/manage-account'">Manage Your Account</button>
+    <button onclick="window.location.href='/log-out'">Log Out</button>
+  </div>
+
+  <script>
+    document.getElementById("userBtn").addEventListener("click", function() {
+      let userMenu = document.getElementById("userMenu");
+      if (userMenu.style.display === "none" || userMenu.style.display === "") {
+        userMenu.style.display = "block";
+      } else {
+        userMenu.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>

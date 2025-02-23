@@ -2,10 +2,9 @@ const { Router } = require('express')
 const passport = require('passport')
 const authorRouter = Router()
 const { registerUser } =  require('../db/query')
-
-
-
-
+const { updateProfileImage } = require('../Controllers/authorController');
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 
 authorRouter.get("/",(req,res)=>{
@@ -22,6 +21,14 @@ authorRouter.post(
     failureRedirect:"/log-in",
   })
 );
+authorRouter.get("/log-out",(req,res,next)=>{
+    req.logOut((err)=>{
+      if(err){
+        return next(err);
+      }
+      res.redirect("/");
+    })
+})
 authorRouter.get("/sign-up",(req,res)=>{
   res.render("signUp")
 })
@@ -33,8 +40,21 @@ authorRouter.post("/sign-up", async (req, res) => {
  res.redirect("/")
 });
 
-authorRouter.get("/Home",(req,res)=>{
-  res.render("Home")
+authorRouter.get("/Home", async (req, res) => {
+    if (!req.user) {
+      return res.render("home", { user: null });
+    }
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      include: { profile: true }, 
+    });
+    res.render("home", { user });
+});
+
+
+authorRouter.get("/manage-account",(req,res)=>{
+  res.render("manageAccout", { user: req.user });
 })
+authorRouter.post("/update-profile-image", updateProfileImage);
 
 module.exports = authorRouter;

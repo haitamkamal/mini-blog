@@ -20,16 +20,25 @@ const registerUser = async (name, email, password) => {
         name,
         email,
         password: hashedPassword,
+        profile: {
+          create: {
+            bio: "No bio yet",
+            image: "default-profile.jpg", 
+          },
+        },
+      },
+      include: {
+        profile: true, 
       },
     });
-
+      console.log("new user created:",newUser)
+      
     return { message: "User registered", user: newUser };
   } catch (error) {
     console.error(error);
     return { error: "Error creating user", details: error.message };
   }
 };
-
 
 const getUserByEmail = async (email) => {
   return await prisma.user.findUnique({ where: { email } });

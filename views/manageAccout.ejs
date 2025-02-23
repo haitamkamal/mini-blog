@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <a href="/Home">X</a>
+    <h2>Profile details</h2>
+    <p>Profile</p>  
+    <p>Username: <%= user.name %></p> 
+
+    <img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>" 
+         alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">  
+
+<form action="/update-profile-image" method="POST" enctype="multipart/form-data">
+    <label for="profileImage">Update Profile Image</label>
+    <input type="file" name="profileImage" accept="image/*" required>
+    <button type="submit">Upload</button>
+</form>
+
+
+</body>
+</html>
