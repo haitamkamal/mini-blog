@@ -3,6 +3,7 @@ const path = require("path");
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('@prisma/client');
+const passport = require('./config/passportConfig'); 
 const authorRouter = require('./routes/authorRouter');
 
 const app = express();
@@ -28,6 +29,11 @@ app.use(
     )
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

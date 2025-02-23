@@ -3,13 +3,11 @@ const bcrypt = require("bcryptjs");
 
 const prisma = new PrismaClient();
 
-
 const hashPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };
 
-
-const registerUser = async (name,email, password) => {
+const registerUser = async (name, email, password) => {
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -19,16 +17,28 @@ const registerUser = async (name,email, password) => {
     const hashedPassword = await hashPassword(password);
     const newUser = await prisma.user.create({
       data: {
-        name, 
+        name,
         email,
-        password: hashedPassword },
+        password: hashedPassword,
+      },
     });
 
     return { message: "User registered", user: newUser };
   } catch (error) {
-    console.error(error); 
+    console.error(error);
     return { error: "Error creating user", details: error.message };
   }
 };
 
-module.exports = { registerUser };
+
+const getUserByEmail = async (email) => {
+  return await prisma.user.findUnique({ where: { email } });
+};
+
+
+const getUserById = async (id) => {
+  return await prisma.user.findUnique({ where: { id } });
+};
+
+
+module.exports = { registerUser, getUserByEmail, getUserById };
