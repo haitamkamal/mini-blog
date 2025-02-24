@@ -83,17 +83,66 @@ const registerPost = async (title, content, uploadedFileName = null) => {
 };
 
 const createPost = async (req, res) => {
-  const { title, content, uploadedFileName } = req.body;
-  const authorId = req.user?.id;  
+  const { title, content } = req.body;
+  const uploadedFile = req.files?.image;
+
+
+  if (!req.user) {
+    return res.status(401).json({ message: 'User not authenticated' });
+  }
+
+  const authorId = req.user.id; 
+
+  if (!title || !content) {
+    return res.status(400).json({ message: 'Title and content are required' });
+  }
+
+  let uploadedFileName = null;
+
+  if (uploadedFile) {
+    uploadedFileName = Date.now() + "_" + uploadedFile.name;  
+    const savePath = path.join(__dirname, "../public/uploads", uploadedFileName);
+
+    try {
+      
+      await new Promise((resolve, reject) => {
+        uploadedFile.mv(savePath, (err) => {
+          if (err) {
+            console.error("Error moving file:", err);
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+      console.log("File uploaded to:", savePath);
+    } catch (error) {
+      return res.status(500).json({ message: 'Error uploading file', error: error.message });
+    }
+  }
 
   try {
-    const result = await registerPost(title, content, uploadedFileName, authorId);
-    res.json(result);  
+    
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        image: uploadedFileName || null,
+        author: {
+          connect: { id: authorId },  
+        },
+      },
+    });
+
+    console.log("New post created:", newPost);
+    res.status(201).json({ message: 'Post created successfully', post: newPost });
+
   } catch (error) {
     console.error("Error creating post:", error);
-    res.status(500).json({ message: "Error creating post", error: error.message });
+    res.status(500).json({ message: 'Error creating post', error: error.message });
   }
 };
+
 
 
 module.exports = { 

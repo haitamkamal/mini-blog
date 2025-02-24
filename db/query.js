@@ -36,33 +36,35 @@ const registerUser = async (name, email, password,uploadedFileName=null) => {
     return { message: "User registered", user: newUser };
  
 };
+const getUserByEmail = async (email) => {
+  return await prisma.user.findUnique({ where: { email } });
+};
+const getUserById = async (id) => {
+  return await prisma.user.findUnique({ where: { id } });
+};
 
 const registerPost = async (title, content, uploadedFileName = null, authorId) => {
+  if (!authorId) {
+    throw new Error("Author ID is missing!");
+  }
+
   const newPost = await prisma.post.create({
     data: {
       title,
       content,
-      image: uploadedFileName,
-      author: {   
-        connect: { 
-          id: authorId, 
-        },
+      image: uploadedFileName || null,
+      author: {
+        connect: { id: authorId }, 
       },
     },
   });
-  console.log("New Post created:", newPost);
+
+  console.log("New post created:", newPost);
   return { message: "Post registered", post: newPost };
 };
 
 
-const getUserByEmail = async (email) => {
-  return await prisma.user.findUnique({ where: { email } });
-};
 
-
-const getUserById = async (id) => {
-  return await prisma.user.findUnique({ where: { id } });
-};
 
 
 module.exports = { 

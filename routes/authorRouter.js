@@ -65,5 +65,8 @@ authorRouter.get("/manage-account", async (req, res) => {
 });
 authorRouter.post("/update-profile-image", updateProfileImage);
 
-
+authorRouter.get("/create-Post",(req,res)=>{
+  res.render("CreatePost")
+})
+authorRouter.post("/create-Post",createPost)
 module.exports = authorRouter;
