@@ -15,8 +15,8 @@
 
   
 <a id="userBtn">
-<img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>" 
-     alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+<img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>?t=<%= Date.now() %>" alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+
 </a>
 
 
