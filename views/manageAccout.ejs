@@ -3,23 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Your Account</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5; /* Light background */
+    }
+    .profile-container {
+      background-color: #ffffff; /* White background for the profile section */
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+    }
+    .profile-image {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
-    <a href="/Home">X</a>
-    <h2>Profile details</h2>
-    <p>Profile</p>  
-    <p>Username: <%= user.name %></p>  
-    
+  <div class="profile-container">
+    <a href="/Home" class="button is-light is-small">
+      <span class="icon">
+        <i class="fas fa-times"></i>
+      </span>
+    </a>
 
-<img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>?t=<%= Date.now() %>" alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
- 
+    <h2 class="title is-4">Profile Details</h2>
+    <p class="subtitle is-6">Profile</p>
+    <p class="subtitle is-6">Username: <%= user.name %></p>
 
-<form action="/update-profile-image" method="POST" enctype="multipart/form-data">
-    <label for="profileImage">Update Profile Image</label>
-    <input type="file" name="profileImage" accept="image/*" required>
-    <button type="submit">Upload</button>
-</form>
+    <img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>?t=<%= Date.now() %>" alt="User Profile" class="profile-image">
 
-
+    <form action="/update-profile-image" method="POST" enctype="multipart/form-data" class="mt-4">
+      <div class="field">
+        <label class="label">Update Profile Image</label>
+        <div class="control">
+          <input class="input" type="file" name="profileImage" accept="image/*" required>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button type="submit" class="button is-primary">Upload</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

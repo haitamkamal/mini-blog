@@ -4,15 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
 </head>
 <body>
- 
-<%- include('./partails/profile') %>
+  <nav class="navbar is-flex is-justify-content-flex-end" role="navigation" aria-label="main navigation">
+    <%- include('./partails/profile') %>
+  </nav>
 
-<p>Create a post with image <button><a href="/Create-Post">Create</a></button></p>
-<p>click here to see posts <button><a href="/view-Post">see</a></button></p>
+  <section class="section">
+    <div class="container">
+      
+      <div class="box has-text-centered mb-6">
+        <p class="subtitle is-2 mb-4">Create a post with an image</p>
+        <a href="/create-Post" class="button is-dark is-medium is-rounded">
+          <span class="icon">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>Create Post</span>
+        </a>
+      </div>
 
-
-
+      <div class="box has-text-centered">
+        <p class="subtitle is-2 mb-4">Click here to see posts</p>
+        <a href="/view-Post" class="button is-dark is-medium is-rounded">
+          <span class="icon">
+            <i class="fas fa-eye"></i>
+          </span>
+          <span>View Posts</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </body>
 </html>

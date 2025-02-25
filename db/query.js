@@ -71,5 +71,5 @@ module.exports = {
   registerUser, 
   getUserByEmail,
    getUserById ,
-    registerPost
+    registerPost,
   };

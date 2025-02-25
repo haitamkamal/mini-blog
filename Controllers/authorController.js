@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const path = require("path");
 const fs = require("fs");
+const { upgradeToAdmin } = require("../db/query");
 
 const uploadDir = path.join(__dirname, "../public/uploads");
 
@@ -140,7 +141,6 @@ async function deleteMsgs(req, res) {
      console.log(`Post with ID ${postId} deleted.`);    
      res.redirect("/view-Post");
 }
-
 
 
 module.exports = { 

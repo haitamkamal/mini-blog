@@ -4,17 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
 </head>
-<body>
-    <h1>File Uploader</h1>
-    <form action="/log-in" method="post">
-        <label for="email">Email</label><br>
-        <input type="email" name="email"><br><br>
+<body class="has-background-dark has-text-light">
 
-        <label for="password">Password</label><br>
-        <input type="password" placeholder="*******" name="password"><br><br>
-        <button type="submit">Log in</button><br>
-    </form>
-    <p> Don't have an account? <a href="/sign-up"> signUp</a> or <a href="/home">login with a demo account</a></p>
+    <section class="section is-flex is-justify-content-center is-align-items-center" style="height: 100vh;">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <div class="box has-background-light">
+                        <h1 class="title has-text-centered has-text-dark">File Uploader</h1>
+
+                        <form action="/log-in" method="post">
+
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input class="input" type="email" name="email" placeholder="Enter your email" required>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="control">
+                                    <input class="input" type="password" name="password" placeholder="*******" required>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-dark is-fullwidth">Log in</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <p class="has-text-centered">
+                            Don't have an account? 
+                            <a href="/sign-up" class="has-text-info">Sign Up</a> or 
+                            <a href="/Home" class="has-text-info">Login with a demo account</a>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>

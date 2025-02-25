@@ -9,13 +9,21 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String   @unique
-  password String?
-  role     Role     @default(USER)
-  Post     Post[]
-  profile  profile?
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String       @unique
+  password   String?
+  role       Role         @default(USER)
+  Post       Post[]
+  profile    profile?
+  Membership Membership[]
+}
+
+model Membership {
+  id       Int    @id @default(autoincrement())
+  password String @unique @default("admin123")
+  authorId Int
+  author   User   @relation(fields: [authorId], references: [id])
 }
 
 model Post {

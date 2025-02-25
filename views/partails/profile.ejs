@@ -4,31 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Menu</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <style>
     #userMenu {
-      display: none; 
-      margin-top: 10px;
+      display: none;
+      position: absolute;
+      z-index: 1000; 
+    }
+
+    
+    #userBtn {
+      margin: 10px;
     }
   </style>
 </head>
 <body>
 
-  
-<a id="userBtn">
-<img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>?t=<%= Date.now() %>" alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
 
-</a>
+  <div class="dropdown is-right" id="userBtn">
+    <div class="dropdown-trigger">
+      <button class="button is-rounded" aria-haspopup="true" aria-controls="userMenu">
+        <img src="/uploads/<%= user.profile?.image || 'default-profile.jpg' %>?t=<%= Date.now() %>" alt="User Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+      </button>
+    </div>
+    
+    <div class="dropdown-menu" id="userMenu" role="menu">
+      <div class="dropdown-content">
+        <div class="dropdown-item">
+          <h3 class="title is-5">Welcome, <%= user.name %>!</h3>
+        </div>
+        <hr class="dropdown-divider">
+        <a href="/manage-account" class="dropdown-item">Manage Your Account</a>
 
-
-  
-  <div id="userMenu">
-    <h3>Welcome, <%= user.name %>!</h3>
-    <button onclick="window.location.href='/manage-account'">Manage Your Account</button>
-    <button onclick="window.location.href='/log-out'">Log Out</button>
+        <a href="/log-out" class="dropdown-item ">Log Out</a>
+      </div>
+    </div>
   </div>
 
   <script>
-    document.getElementById("userBtn").addEventListener("click", function() {
+    
+    document.getElementById("userBtn").addEventListener("click", function(event) {
+      event.stopPropagation(); 
       let userMenu = document.getElementById("userMenu");
       if (userMenu.style.display === "none" || userMenu.style.display === "") {
         userMenu.style.display = "block";
@@ -36,7 +52,23 @@
         userMenu.style.display = "none";
       }
     });
-  </script>
 
+
+    document.addEventListener("click", function(event) {
+      let userMenu = document.getElementById("userMenu");
+      let userBtn = document.getElementById("userBtn");
+
+     
+      if (event.target !== userMenu && event.target !== userBtn && !userMenu.contains(event.target)) {
+        userMenu.style.display = "none";
+      }
+    });
+
+    
+    document.getElementById("userMenu").addEventListener("click", function(event) {
+      event.stopPropagation();
+    });
+  </script>
+  
 </body>
 </html>

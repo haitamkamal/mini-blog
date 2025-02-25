@@ -4,21 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <style>
+    /* Ensures the background covers the full height of the page */
+    html, body {
+      height: 100%;
+    }
+  </style>
 </head>
-<body>
-      <h1>Create an account</h1>
-      <form action="/sign-up" method="post">
-        <label for="name">Username</label><br>
-        <input type="text" name="name" required><br><br>
+<body class="has-background-dark has-text-light">
 
-        <label for="email">Email</label><br>
-        <input type="email" name="email" required><br><br>
+  <section class="section is-flex is-justify-content-center is-align-items-center" style="height: 100vh;">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <div class="box has-background-light">
+            <h1 class="title has-text-centered has-text-dark">Create an Account</h1>
 
-        <label for="password">Password</label><br>
-        <input type="password" name="password" placeholder="******" required><br><br>
+            <form action="/sign-up" method="post">
+              
+              <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                  <input class="input" type="text" name="name" placeholder="Enter your username" required>
+                </div>
+              </div>
 
-        <button type="submit">Create an account</button><br><br>
-      </form>
-      <p>Already have an account? <a href="/log-in">login here</a></p>
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                  <input class="input" type="email" name="email" placeholder="Enter your email" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                  <input class="input" type="password" name="password" placeholder="******" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <button class="button is-dark is-fullwidth">Create an Account</button>
+                </div>
+              </div>
+
+            </form>
+
+            <p class="has-text-centered">
+              Already have an account? <a href="/log-in" class="has-text-info">Log in here</a>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </body>
 </html>
