@@ -2,7 +2,7 @@ const { Router } = require('express')
 const passport = require('passport')
 const authorRouter = Router()
 const { registerUser } =  require('../db/query')
-const { updateProfileImage ,createPost} = require('../Controllers/authorController');
+const { updateProfileImage ,createPost, renderIndex, deleteMsgs, updateUsername} = require('../Controllers/authorController');
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -69,4 +69,9 @@ authorRouter.get("/create-Post",(req,res)=>{
   res.render("CreatePost")
 })
 authorRouter.post("/create-Post",createPost)
+
+authorRouter.get("/view-Post",renderIndex)
+
+authorRouter.post("/deleteMsg/:id",deleteMsgs)
+
 module.exports = authorRouter;

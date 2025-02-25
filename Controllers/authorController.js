@@ -6,7 +6,7 @@ const fs = require("fs");
 const uploadDir = path.join(__dirname, "../public/uploads");
 
 const updateProfileImage = async (req, res) => {
-  try {
+
     const userId = req.user.id;
     console.log("User ID:", userId);
 
@@ -22,7 +22,6 @@ const updateProfileImage = async (req, res) => {
 
     console.log("Saving image to:", savePath);
 
-    
     await new Promise((resolve, reject) => {
       uploadedFile.mv(savePath, (err) => {
         if (err) {
@@ -34,7 +33,6 @@ const updateProfileImage = async (req, res) => {
       });
     });
 
-    
     const existingProfile = await prisma.profile.findFirst({
       where: { userId: userId },
     });
@@ -60,13 +58,9 @@ const updateProfileImage = async (req, res) => {
 
     console.log("Updated profile record:", updatedProfile);
     res.redirect("/manage-account");
-  } catch (error) {
-    console.error("Error updating profile image", error);
-    res.status(500).send(`Error updating profile image: ${error.message}`);
-  }
+  
 };
 const registerPost = async (title, content, uploadedFileName = null) => {
-  try {
     const newPost = await prisma.post.create({
       data: {
         title,
@@ -76,10 +70,7 @@ const registerPost = async (title, content, uploadedFileName = null) => {
     });
     console.log("New Post created:", newPost);
     return { message: "Post registered", post: newPost };
-  } catch (error) {
-    console.error("Error creating post:", error);
-    throw new Error("Error creating post");
-  }
+  
 };
 
 const createPost = async (req, res) => {
@@ -102,9 +93,6 @@ const createPost = async (req, res) => {
   if (uploadedFile) {
     uploadedFileName = Date.now() + "_" + uploadedFile.name;  
     const savePath = path.join(__dirname, "../public/uploads", uploadedFileName);
-
-    try {
-      
       await new Promise((resolve, reject) => {
         uploadedFile.mv(savePath, (err) => {
           if (err) {
@@ -116,12 +104,10 @@ const createPost = async (req, res) => {
         });
       });
       console.log("File uploaded to:", savePath);
-    } catch (error) {
-      return res.status(500).json({ message: 'Error uploading file', error: error.message });
-    }
+   
   }
 
-  try {
+  
     
     const newPost = await prisma.post.create({
       data: {
@@ -135,19 +121,33 @@ const createPost = async (req, res) => {
     });
 
     console.log("New post created:", newPost);
-    res.status(201).json({ message: 'Post created successfully', post: newPost });
-
-  } catch (error) {
-    console.error("Error creating post:", error);
-    res.status(500).json({ message: 'Error creating post', error: error.message });
-  }
+    res.status(201), { message: 'Post created successfully', post: newPost };
+      res.redirect("/Home")
 };
+
+async function renderIndex(req, res) {
+
+  const  posts = await prisma.post.findMany();
+  console.log("fetched Posts :",{posts});
+  res.render("viewPost",{posts});
+
+}
+async function deleteMsgs(req, res) {
+    const postId =  parseInt (req.params.id);
+    await prisma.post .delete({
+      where:{id:postId},
+    });
+     console.log(`Post with ID ${postId} deleted.`);    
+     res.redirect("/view-Post");
+}
 
 
 
 module.exports = { 
   createPost, 
   registerPost,
-  updateProfileImage 
+  updateProfileImage ,
+  renderIndex,
+  deleteMsgs,
 };
 
